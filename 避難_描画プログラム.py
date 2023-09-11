@@ -22,7 +22,7 @@ def create_gif(in_dir, out_filename):
 
 
 #CSVファイルの読み込み
-CSV_DATA = "C:\\Users\\mashiko234\\Documents\\研究室\\出力結果　まとめ\\描画テスト用\\simulation(basic)0.csv"
+CSV_DATA = "C:\\Users\\mashiko234\\Documents\\研究室\\出力結果　まとめ\\通常の避難\\simulation(basic)25.csv"
 col_names = ['c{0:02d}'.format(i) for i in range(203)]
 df = pd.read_csv(CSV_DATA, header=None, encoding="Shift-JIS",names=col_names)
 # print(df)
@@ -60,7 +60,7 @@ df_y_coord = df_coordinate.filter(like='y座標',axis='columns')
 # df_y_coord_e = df_y_coord.filter(regex='^避',axis='columns')
 
 #画像保存先フォルダのパスを取得
-path_dir = pathlib.Path('C:\\Users\\mashiko234\\Documents\\MyPython\\避難の様子')
+path_dir = pathlib.Path('C:\\Users\\mashiko234\\Documents\\プログラム（Python）\\避難の様子')
 
 #１秒毎のスナップショットを取得
 for i in range(len(df_x_coord)):
