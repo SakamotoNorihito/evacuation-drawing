@@ -22,8 +22,8 @@ def create_gif(in_dir, out_filename):
 
 
 #CSVファイルの読み込み
-CSV_DATA = "C:\\Users\\mashiko234\\Documents\\研究室\\出力結果　まとめ\\通常の避難\\simulation(basic)25.csv"
-col_names = ['c{0:02d}'.format(i) for i in range(203)]
+CSV_DATA = "C:\\Users\\mashiko234\\source\\repos\\SFM(basic)\\SFM(basic)\\simulation(basic)2.csv"
+col_names = ['c{0:02d}'.format(i) for i in range(209)]
 df = pd.read_csv(CSV_DATA, header=None, encoding="Shift-JIS",names=col_names)
 # print(df)
 # df.info()
@@ -33,10 +33,13 @@ df_simulationCondition = df.iloc[[0,1],:]
 room_size_x = float(df_simulationCondition.iat[1,0])
 room_size_y = float(df_simulationCondition.iat[1,1])
 width_exit = float(df_simulationCondition.iat[1,2])
-R_agent = 0.25
+R_agent = float(df_simulationCondition.iat[1,3])
+R_ind = float(df_simulationCondition.iat[1,4])
 # print(room_size_x)
 # print(room_size_y)
 # print(width_exit)
+# print(R_agent)
+# print(R_ind)
 
 #座標データ格納用データフレーム
 headerList = list(df.iloc[2,2:])
@@ -50,14 +53,16 @@ df_x_coord = df_coordinate.filter(like='x座標',axis='columns')
 df_y_coord = df_coordinate.filter(like='y座標',axis='columns')
 # print(df_x_coord)
 # print(df_y_coord)
-# print(df_x_coord.dtypes)
-# print(df_y_coord.dtypes)
 
 #抽出したx, y座標を誘導者, 避難者のものに振り分け
-# df_x_coord_g = df_x_coord.filter(regex='^誘',axis='columns')
-# df_y_coord_g = df_y_coord.filter(regex='^誘',axis='columns')
-# df_x_coord_e = df_x_coord.filter(regex='^避',axis='columns')
-# df_y_coord_e = df_y_coord.filter(regex='^避',axis='columns')
+df_x_coord_g = df_x_coord.filter(regex='^誘',axis='columns')
+df_y_coord_g = df_y_coord.filter(regex='^誘',axis='columns')
+df_x_coord_e = df_x_coord.filter(regex='^避',axis='columns')
+df_y_coord_e = df_y_coord.filter(regex='^避',axis='columns')
+# print(df_x_coord_g)
+# print(df_y_coord_g)
+# print(df_x_coord_e)
+# print(df_y_coord_e)
 
 #画像保存先フォルダのパスを取得
 path_dir = pathlib.Path('C:\\Users\\mashiko234\\Documents\\プログラム（Python）\\避難の様子')
@@ -88,12 +93,21 @@ for i in range(len(df_x_coord)):
     plt.gca().spines['bottom'].set_visible(False)
     plt.gca().spines['left'].set_visible(False)
 
+    #誘導者の描画
+    for j in range(len(df_x_coord_g.columns)):
+        guide_x = float(df_x_coord_g.iat[i,j])
+        guide_y = float(df_y_coord_g.iat[i,j])
+        guide = patches.Circle(xy=(guide_x,guide_y),radius=R_agent,fc='r',ec='r')
+        circle_ind = patches.Circle(xy=(guide_x,guide_y),radius=R_ind,ec='k',fill=False,linestyle='dashed')
+        ax.add_patch(guide)
+        ax.add_patch(circle_ind)
+
     #避難者の描画
-    for j in range(len(df_x_coord.columns)):
-        c_x = float(df_x_coord.iat[i,j])
-        c_y = float(df_y_coord.iat[i,j])
-        c = patches.Circle(xy=(c_x,c_y),radius=R_agent)
-        ax.add_patch(c)
+    for j in range(len(df_x_coord_e.columns)):
+        evacuee_x = float(df_x_coord_e.iat[i,j])
+        evacuee_y = float(df_y_coord_e.iat[i,j])
+        evacuee = patches.Circle(xy=(evacuee_x,evacuee_y),radius=R_agent,fc='b',ec='b')        
+        ax.add_patch(evacuee)
     
     #画像を保存先フォルダに保存
     path_img = path_dir.joinpath(f'{i}秒.png')
