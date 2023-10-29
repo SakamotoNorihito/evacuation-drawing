@@ -1,5 +1,5 @@
 # はじめに
-本プログラムは、[SFM-basic-リポジトリの避難誘導用ブランチのプログラム](https://github.com/SakamotoNorihito/evacuation-drawing.git)を実行した際に出力されるCSVデータを用いて、避難の様子を描画することを目的に作成されました。コードはPythonで記述されています。
+本プログラムは、[SFM-basic-リポジトリのguideブランチのプログラム](https://github.com/SakamotoNorihito/SFM-basic-.git)を実行した際に出力されるCSVデータを用いて、避難の様子を描画することを目的に作成されました。コードはPythonで記述されています。
 
 # 動作環境
 OS:Microsoft Windows 11  
