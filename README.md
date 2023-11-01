@@ -29,8 +29,8 @@ path_dir = pathlib.Path('C:\\Users\\mashiko234\\Documents\\プログラム（Pyt
 プログラムを実行すると、各時刻ごとの避難の様子を描画したスナップショットとそれらを連結したアニメーションが保存先フォルダに生成されます。  
 下記の例は
 ```
-#画像保存先フォルダのパスを取得
-path_dir = pathlib.Path('C:\\Users\\mashiko234\\Documents\\プログラム（Python）\\避難の様子')
+R_ind = 3;			//誘導者の誘導半径(m)
+R_vis = 2;			//エージェントの視界半径(m)
 ```
 の時の避難の様子です。
 
