@@ -27,6 +27,7 @@ path_dir = pathlib.Path('C:\\Users\\mashiko234\\Documents\\プログラム（Pyt
 
 ## プログラムの実行
 プログラムを実行すると、各時刻ごとの避難の様子を描画したpngファイルとそれらを連結したgifファイルが保存先フォルダに生成されます。
+![0秒](https://github.com/SakamotoNorihito/evacuation-drawing/assets/137757680/c0df69a7-c44e-4528-8dbe-33aa196a7611)
 
 # 作成者
 坂本矩仁
