@@ -29,7 +29,7 @@ path_dir = pathlib.Path('C:\\Users\\mashiko234\\Documents\\プログラム（Pyt
 プログラムを実行すると、各時刻ごとの避難の様子を描画したスナップショットとそれらを連結したアニメーションが保存先フォルダに生成されます。
 
 ### スナップショット
-![結合](https://github.com/SakamotoNorihito/evacuation-drawing/assets/137757680/84c0d60d-9897-41ad-9bd0-2bd41bdffad3)
+![結合 (1)](https://github.com/SakamotoNorihito/evacuation-drawing/assets/137757680/4206c69e-3e87-484e-8a68-b3965df46d1e)
 
 ### アニメーション
 ![animation](https://github.com/SakamotoNorihito/evacuation-drawing/assets/137757680/f191a0cd-1c32-4f64-aa22-c8026d280b3e)
