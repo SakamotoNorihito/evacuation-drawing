@@ -32,7 +32,7 @@ path_dir = pathlib.Path('C:\\Users\\mashiko234\\Documents\\プログラム（Pyt
 ![結合 (1)](https://github.com/SakamotoNorihito/evacuation-drawing/assets/137757680/4206c69e-3e87-484e-8a68-b3965df46d1e)
 
 ### アニメーション
-![animation](https://github.com/SakamotoNorihito/evacuation-drawing/assets/137757680/f191a0cd-1c32-4f64-aa22-c8026d280b3e)
+![animation](https://github.com/SakamotoNorihito/evacuation-drawing/assets/137757680/2752e8f4-c43b-4a8a-ab1b-91638956d981)
 
 # 作成者
 坂本矩仁
