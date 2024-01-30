@@ -36,10 +36,10 @@ R_vis = 2;			//エージェントの視界半径(m)
 の時の避難の様子です。
 
 ### スナップショット
-![0秒 (1)](https://github.com/SakamotoNorihito/evacuation-drawing/assets/137757680/6c835bc2-1a6f-4d7c-8fbd-a2c438f2221a)
+![結合](https://github.com/SakamotoNorihito/evacuation-drawing/assets/137757680/84c0d60d-9897-41ad-9bd0-2bd41bdffad3)
 
 ### アニメーション
-![animation](https://github.com/SakamotoNorihito/evacuation-drawing/assets/137757680/9588d9a0-cdfe-44ac-86ae-943c37fe0abe)
+![animation](https://github.com/SakamotoNorihito/evacuation-drawing/assets/137757680/f191a0cd-1c32-4f64-aa22-c8026d280b3e)
 
 # 作成者
 坂本矩仁
