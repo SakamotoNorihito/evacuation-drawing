@@ -35,6 +35,7 @@ room_size_y = float(df_simulationCondition.iat[1,1])
 width_exit = float(df_simulationCondition.iat[1,2])
 R_agent = float(df_simulationCondition.iat[1,3])
 R_ind = float(df_simulationCondition.iat[1,4])
+R_vis = float(df_simulationCondition.iat[1,5])
 # print(room_size_x)
 # print(room_size_y)
 # print(width_exit)
@@ -108,6 +109,10 @@ for i in range(len(df_x_coord)):
     plt.gca().spines['top'].set_visible(False)
     plt.gca().spines['bottom'].set_visible(False)
     plt.gca().spines['left'].set_visible(False)
+
+    #出口視認可能領域の描画
+    circle_exit_can_be_seen = patches.Circle(xy=(room_size_x,0),radius=R_vis,ec='k',fill=False,linestyle='dashed')
+    ax.add_patch(circle_exit_can_be_seen)
 
     #誘導者の描画
     for j in range(len(df_x_coord_g.columns)):
