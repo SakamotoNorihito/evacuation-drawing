@@ -128,7 +128,7 @@ for i in range(len(df_x_coord)):
         ax.add_patch(guide)
         ax.add_patch(circle_ind)
         #誘導者の希望方向の描画
-        ax.arrow(x=guide_x,y=guide_y,dx=guide_e_x,dy=guide_e_y,head_width=0.05,head_length=0.1)    
+        ax.arrow(x=guide_x,y=guide_y,dx=guide_e_x,dy=guide_e_y,head_width=0.2,head_length=0.1)    
 
     #避難者の描画
     for j in range(len(df_x_coord_e.columns)):
