@@ -22,7 +22,7 @@ def create_gif(in_dir, out_filename):
 
 
 #CSVファイルの読み込み
-CSV_DATA = "C:\\Users\\mashiko234\\source\\repos\\SFM(basic)\\SFM(basic)\\simulation(basic)0.csv"
+CSV_DATA = "C:\\Users\\mashiko234\\Desktop\\研究室　面談　資料\\拡散現象\\N=25,R_ind=5,R_vis=1.csv"
 col_names = ['c{0:02d}'.format(i) for i in range(1417)]
 df = pd.read_csv(CSV_DATA, header=None, encoding="Shift-JIS",names=col_names)
 # print(df)
@@ -65,6 +65,10 @@ df_y_coord_e = df_y_coord.filter(regex='^避',axis='columns')
 # print(df_x_coord_e)
 # print(df_y_coord_e)
 
+#描画したい要素の選択
+draw_e = False       #希望方向
+draw_v = True      #速度
+
 #e_x, e_y（希望方向）の抽出
 df_e_x = df_coordinate.filter(like='e_x',axis='columns')
 df_e_y = df_coordinate.filter(like='e_y',axis='columns')
@@ -80,6 +84,22 @@ df_e_y_e = df_e_y.filter(regex='^避',axis='columns')
 # print(df_e_y_g)
 # print(df_e_x_e)
 # print(df_e_y_e)
+
+#v_x, v_y（速度）の抽出
+df_v_x = df_coordinate.filter(like='のv_x',axis='columns')
+df_v_y = df_coordinate.filter(like='のv_y',axis='columns')
+# print(df_v_x)
+# print(df_v_y)
+
+#抽出したv_x, v_y（速度）を誘導者, 避難者のものに振り分け
+df_v_x_g = df_v_x.filter(regex='^誘',axis='columns')
+df_v_y_g = df_v_y.filter(regex='^誘',axis='columns')
+df_v_x_e = df_v_x.filter(regex='^避',axis='columns')
+df_v_y_e = df_v_y.filter(regex='^避',axis='columns')
+# print(df_v_x_g)
+# print(df_v_y_g)
+# print(df_v_x_e)
+# print(df_v_y_e)
 
 #画像保存先フォルダのパスを取得
 path_dir = pathlib.Path('C:\\Users\\mashiko234\\Documents\\プログラム（Python）\\避難の様子')
@@ -122,13 +142,20 @@ for i in range(len(df_x_coord)):
         #誘導者の希望方向の抽出
         guide_e_x = float(df_e_x_g.iat[i,j])
         guide_e_y = float(df_e_y_g.iat[i,j])
+        #誘導者の速度の抽出
+        guide_v_x = float(df_v_x_g.iat[i,j])
+        guide_v_y = float(df_v_y_g.iat[i,j])
         #誘導者と誘導半径の描画
         guide = patches.Circle(xy=(guide_x,guide_y),radius=R_agent,fc='r',ec='r')
         circle_ind = patches.Circle(xy=(guide_x,guide_y),radius=R_ind,ec='k',fill=False,linestyle='dashed')
         ax.add_patch(guide)
-        ax.add_patch(circle_ind)
+        ax.add_patch(circle_ind)        
         #誘導者の希望方向の描画
-        ax.arrow(x=guide_x,y=guide_y,dx=guide_e_x,dy=guide_e_y,head_width=0.2,head_length=0.1)    
+        if draw_e == True:
+            ax.arrow(x=guide_x,y=guide_y,dx=guide_e_x,dy=guide_e_y,head_width=0.2,head_length=0.1)
+        #誘導者の速度の描画
+        elif draw_v == True:
+            ax.arrow(x=guide_x,y=guide_y,dx=guide_v_x,dy=guide_v_y,head_width=0.2,head_length=0.1)
 
     #避難者の描画
     for j in range(len(df_x_coord_e.columns)):
@@ -138,11 +165,18 @@ for i in range(len(df_x_coord)):
         #避難者の希望方向の抽出
         evacuee_e_x = float(df_e_x_e.iat[i,j])
         evacuee_e_y = float(df_e_y_e.iat[i,j])
+        #避難者の速度の抽出
+        evacuee_v_x = float(df_v_x_e.iat[i,j])
+        evacuee_v_y = float(df_v_y_e.iat[i,j])
         #避難者の描画        
         evacuee = patches.Circle(xy=(evacuee_x,evacuee_y),radius=R_agent,fc='b',ec='b')        
         ax.add_patch(evacuee)
         #避難者の希望方向の描画
-        ax.arrow(x=evacuee_x,y=evacuee_y,dx=evacuee_e_x,dy=evacuee_e_y,head_width=0.2,head_length=0.1)
+        if draw_e == True:
+            ax.arrow(x=evacuee_x,y=evacuee_y,dx=evacuee_e_x,dy=evacuee_e_y,head_width=0.2,head_length=0.1)        
+        #避難者の速度の描画
+        elif draw_v == True:
+            ax.arrow(x=evacuee_x,y=evacuee_y,dx=evacuee_v_x,dy=evacuee_v_y,head_width=0.2,head_length=0.1)        
     
     #画像を保存先フォルダに保存
     path_img = path_dir.joinpath(f'{i}秒.png')
