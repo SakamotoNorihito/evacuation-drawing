@@ -7,6 +7,10 @@ import pathlib
 import os
 import glob
 
+# GIFアニメーション作成　参考サイト
+# Pythonで複数画像からGIFを作る時に便利な処理まとめ
+# https://watlab-blog.com/2021/01/31/python-gif/#%E5%8B%95%E7%94%BB%E3%81%8B%E3%82%89%E9%9D%99%E6%AD%A2%E7%94%BB%E3%82%92%E6%8A%BD%E5%87%BA%E3%81%99%E3%82%8B
+
 # GIFアニメーション生成用関数
 def create_gif(in_dir, out_filename):
     path_list = natsorted(glob.glob(os.path.join(*[path_dir, '*'])))    # ファイルパスをソートしてリストする
@@ -17,13 +21,13 @@ def create_gif(in_dir, out_filename):
         img = Image.open(path_list[i])                          # 画像ファイルを1つずつ開く
         imgs.append(img)                                        # 画像をappendで配列に格納していく
  
-    # appendした画像配列をGIFにする。durationで持続時間、loopでループ数を指定可能。
-    imgs[0].save(out_filename,save_all=True, append_images=imgs[1:], optimize=False, duration=100, loop=0)
+    # appendした画像配列をGIFにする。durationで持続時間(単位：ms)、loopでループ数を指定可能。
+    imgs[0].save(out_filename,save_all=True, append_images=imgs[1:], optimize=False, duration=100, loop=1)
 
 
 #CSVファイルの読み込み
-CSV_DATA = "C:\\Users\\mashiko234\\Desktop\\研究室　面談　資料\\拡散現象\\N=25,R_ind=5,R_vis=1.csv"
-col_names = ['c{0:02d}'.format(i) for i in range(1417)]
+CSV_DATA = "C:\\Users\\mashiko234\\Desktop\\研究室　面談　資料\\0716\\確率を用いた視界視認判定の確認\\R_vis=2, δ=0\\simulation(basic)0.csv"
+col_names = ['c{0:02d}'.format(i) for i in range(2000)]
 df = pd.read_csv(CSV_DATA, header=None, encoding="Shift-JIS",names=col_names)
 # print(df)
 # df.info()
@@ -66,8 +70,8 @@ df_y_coord_e = df_y_coord.filter(regex='^避',axis='columns')
 # print(df_y_coord_e)
 
 #描画したい要素の選択
-draw_e = False       #希望方向
-draw_v = True      #速度
+draw_e = True       #希望方向
+draw_v = False      #速度
 
 #e_x, e_y（希望方向）の抽出
 df_e_x = df_coordinate.filter(like='e_x',axis='columns')
@@ -133,6 +137,12 @@ for i in range(len(df_x_coord)):
     #出口視認可能領域の描画
     circle_exit_can_be_seen = patches.Circle(xy=(room_size_x,0),radius=R_vis,ec='k',fill=False,linestyle='dashed')
     ax.add_patch(circle_exit_can_be_seen)
+    #出口視認可能領域の描画（後で消す）
+    circle_exit_can_be_seen_test = patches.Circle(xy=(room_size_x,0),radius=R_vis - 0,ec='k',fill=False,linestyle='dashed')
+    ax.add_patch(circle_exit_can_be_seen_test)
+    #出口視認可能領域の描画（後で消す）
+    circle_exit_can_be_seen_test = patches.Circle(xy=(room_size_x,0),radius=R_vis + 0,ec='k',fill=False,linestyle='dashed')
+    ax.add_patch(circle_exit_can_be_seen_test)
 
     #誘導者の描画
     for j in range(len(df_x_coord_g.columns)):
@@ -147,7 +157,7 @@ for i in range(len(df_x_coord)):
         guide_v_y = float(df_v_y_g.iat[i,j])
         #誘導者と誘導半径の描画
         guide = patches.Circle(xy=(guide_x,guide_y),radius=R_agent,fc='r',ec='r')
-        circle_ind = patches.Circle(xy=(guide_x,guide_y),radius=R_ind,ec='k',fill=False,linestyle='dashed')
+        circle_ind = patches.Circle(xy=(guide_x,guide_y),radius=R_ind,ec='r',fill=False,linestyle='dashed')
         ax.add_patch(guide)
         ax.add_patch(circle_ind)        
         #誘導者の希望方向の描画
