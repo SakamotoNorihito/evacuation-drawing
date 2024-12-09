@@ -22,12 +22,12 @@ def create_gif(in_dir, out_filename):
         imgs.append(img)                                        # 画像をappendで配列に格納していく
  
     # appendした画像配列をGIFにする。durationで持続時間(単位：ms)、loopでループ数を指定可能。
-    imgs[0].save(out_filename,save_all=True, append_images=imgs[1:], optimize=False, duration=100, loop=1)
-
+    imgs[0].save(out_filename,save_all=True, append_images=imgs[1:], optimize=False, duration=100, loop=0)
 
 #CSVファイルの読み込み
-CSV_DATA = "C:\\Users\\mashiko234\\Desktop\\研究室　面談　資料\\0716\\確率を用いた視界視認判定の確認\\R_vis=2, δ=0\\simulation(basic)0.csv"
-col_names = ['c{0:02d}'.format(i) for i in range(2000)]
+CSV_DATA = "C:\\Users\\mashiko234\\Documents\\研究室\\修士論文関係\\取得データ\\視界・誘導半径と避難効率の関係（誘導者の初期配置：先行研究）\\Rind=5\\Rvis=2\\simulation(basic)6.csv"
+#CSV_DATA = "C:\\Users\\mashiko234\\source\\repos\\SFM(basic)\\SFM(basic)\\simulation(basic)0.csv"
+col_names = ['c{0:02d}'.format(i) for i in range(10000)]
 df = pd.read_csv(CSV_DATA, header=None, encoding="Shift-JIS",names=col_names)
 # print(df)
 # df.info()
@@ -72,6 +72,7 @@ df_y_coord_e = df_y_coord.filter(regex='^避',axis='columns')
 #描画したい要素の選択
 draw_e = True       #希望方向
 draw_v = False      #速度
+draw_t = 131        #描画したい秒数
 
 #e_x, e_y（希望方向）の抽出
 df_e_x = df_coordinate.filter(like='e_x',axis='columns')
@@ -110,6 +111,10 @@ path_dir = pathlib.Path('C:\\Users\\mashiko234\\Documents\\プログラム（Pyt
 
 #１秒毎のスナップショットを取得
 for i in range(len(df_x_coord)):
+    #指定時間になったら描画を停止する
+    if i == draw_t:
+        break
+
     #描画領域の準備
     fig = plt.figure()
     ax = plt.axes()
@@ -158,12 +163,14 @@ for i in range(len(df_x_coord)):
         #誘導者と誘導半径の描画
         guide = patches.Circle(xy=(guide_x,guide_y),radius=R_agent,fc='r',ec='r')
         circle_ind = patches.Circle(xy=(guide_x,guide_y),radius=R_ind,ec='r',fill=False,linestyle='dashed')
+        circle_vis = patches.Circle(xy=(guide_x,guide_y),radius=R_vis,ec='k',fill=False,linestyle='dashed')
         ax.add_patch(guide)
-        ax.add_patch(circle_ind)        
-        #誘導者の希望方向の描画
+        ax.add_patch(circle_ind)
+        ax.add_patch(circle_vis)        
+        #誘導者の希望方向の描画（赤色）
         if draw_e == True:
-            ax.arrow(x=guide_x,y=guide_y,dx=guide_e_x,dy=guide_e_y,head_width=0.2,head_length=0.1)
-        #誘導者の速度の描画
+            ax.arrow(x=guide_x,y=guide_y,dx=guide_e_x,dy=guide_e_y,head_width=0.2,head_length=0.1,fc='r',ec='r')
+        #誘導者の速度の描画（黒色）
         elif draw_v == True:
             ax.arrow(x=guide_x,y=guide_y,dx=guide_v_x,dy=guide_v_y,head_width=0.2,head_length=0.1)
 
@@ -181,10 +188,10 @@ for i in range(len(df_x_coord)):
         #避難者の描画        
         evacuee = patches.Circle(xy=(evacuee_x,evacuee_y),radius=R_agent,fc='b',ec='b')        
         ax.add_patch(evacuee)
-        #避難者の希望方向の描画
+        #避難者の希望方向の描画（赤色）
         if draw_e == True:
-            ax.arrow(x=evacuee_x,y=evacuee_y,dx=evacuee_e_x,dy=evacuee_e_y,head_width=0.2,head_length=0.1)        
-        #避難者の速度の描画
+            ax.arrow(x=evacuee_x,y=evacuee_y,dx=evacuee_e_x,dy=evacuee_e_y,head_width=0.2,head_length=0.1,fc='r',ec='r')        
+        #避難者の速度の描画（黒色）
         elif draw_v == True:
             ax.arrow(x=evacuee_x,y=evacuee_y,dx=evacuee_v_x,dy=evacuee_v_y,head_width=0.2,head_length=0.1)        
     
